@@ -54,6 +54,7 @@ layout: default
     {% if page.description %}<p class="post-description">{{ page.description }}</p>{% endif %}
   </header>
 
+  <!--
   <h4>Table of contents</h4>
   <ul class="timeline">
   {% for entry in site.data.resume %}
@@ -68,6 +69,7 @@ layout: default
     <li><a href="#{{ entry[0] }}"><span class="badge-toc">{{ entry[0] | capitalize }}</span></a></li>
   {% endfor %}
   </ul>
+  -->
 
   <article>
     <div class="cv">
@@ -85,8 +87,8 @@ layout: default
           <h3 class="card-title font-weight-medium">{{ data[0] | capitalize }}</h3>
           <div>
           {% case data[0] %}
-            {% when "basics" %}
-              {% include resume/basics.html %}
+            {% when "general information" %}
+              {% include resume/general information.html %}
             {% when "education" %}
               {% include resume/education.html %}
             {% when "work" %}
