@@ -1,12 +1,12 @@
 {
   "basics": {
-    "name": "Jiseok Chae",
-    "label": "Ph.D. Student",
+    "Name": "Jiseok Chae",
+    "Position": "Ph.D. Student",
     "image": "",
     "email": "jsch@kaist.ac.kr", 
     "URL": "https://jsch8q.github.io/",
-    "summary": "A Ph.D. student in the Department of Mathematical Sciences in KAIST, interested in Optimization and Machine Learning",
-    "location": {
+    "Summary": "A Ph.D. student in the Department of Mathematical Sciences in KAIST, interested in Optimization and Machine Learning",
+    "Location": {
       "address": "E2-1 3227, 291 Daehak-ro",
       "postalCode": "34141",
       "city": "Yuseong-gu",
@@ -14,9 +14,21 @@
       "region": "Daejeon"
     }  
   },
-  "academic interests": [
-    "Optimization Theory", 
-    "Machine Learning"
+  "interests": [
+    {
+      "name": "Academic",
+      "keywords": [
+        "Machine Learning", 
+        "Optimization"
+      ]
+    },
+    {
+      "name": "Personal",
+      "keywords": [
+        "Foo", 
+        "Bar"
+      ]
+    }
   ],
   "volunteer": [],
   "education": [
