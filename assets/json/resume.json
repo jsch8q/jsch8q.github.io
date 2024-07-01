@@ -19,13 +19,15 @@
       "name": "Academic",
       "keywords": [
         "Optimization Theory",
-        "Machine Learning"
+        "Machine Learning",
+        "Analysis of Algorithms"
       ]
     },
     {
       "name": "Personal",
       "keywords": [
         "Speedcubing", 
+        "Puzzles",
         "Abstract strategy games"
       ]
     }
