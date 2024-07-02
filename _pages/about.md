@@ -19,7 +19,7 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
 
-**The main page is still under constuction; especially, I can't find a decent profile picture to use. I will at least try to keep other sections up to date.**
+<!--**The main page is still under constuction; especially, I can't find a decent profile picture to use. I will at least try to keep other sections up to date.**-->
 
 I am an integrated M.S./Ph.D. student in the <a href='https://mathsci.kaist.ac.kr/home/'>Department of Mathematical Sciences, KAIST</a>. 
 My academic advisor is Prof. <a href='https://mathsci.kaist.ac.kr/~donghwankim'>Donghwan Kim</a>.
