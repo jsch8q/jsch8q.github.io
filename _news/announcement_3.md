@@ -5,5 +5,5 @@ inline: true
 related_posts: false
 ---
  
-One paper got accepted to NeurIPS 2024! 
+One paper got accepted to NeurIPS 2024. See you in Vancouver!
 <!--*Stochastic extragradient with flip-flop shuffling & anchoring*.-->
