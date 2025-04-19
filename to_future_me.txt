@@ -1,0 +1,8 @@
+To future me who might be struggling,
+
+alias homepage="cd ~/jsch8q.github.io/ && sudo bundle exec jekyll serve --lsi"
+
+Good luck. 
+
+Best wishes, 
+You from the past
