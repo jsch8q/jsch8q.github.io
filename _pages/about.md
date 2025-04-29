@@ -7,7 +7,7 @@ subtitle: <!--<a href='https://mathsci.kaist.ac.kr/home/'>Department of Mathemat
 profile:
   align: right
   image: prof_pic.jpg
-  image_circular: false # crops the image to make it circular
+  image_circular: true # crops the image to make it circular
   address: >
     <p>E2-1, #3227</p>
     <p>291 Daehak-ro, Yuseong-gu</p>
