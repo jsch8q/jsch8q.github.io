@@ -1,8 +1,9 @@
 ---
 layout: post
-date: 2024-01-25 00:00:00+0900
+date: 2024-09-26 10:00:00+0900
 inline: true
 related_posts: false
 ---
-
-One paper got accepted to ICLR 2024!
+ 
+One paper got accepted to NeurIPS 2024. See you in Vancouver!
+<!--*Stochastic extragradient with flip-flop shuffling & anchoring*.-->
