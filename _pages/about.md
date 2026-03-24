@@ -9,7 +9,7 @@ profile:
   image: prof_pic.jpg
   image_circular: true # crops the image to make it circular
   address: >
-    <p>E2-1, #3227</p>
+    <p>E7, #2102</p>
     <p>291 Daehak-ro, Yuseong-gu</p>
     <p>Daejeon, Republic of Korea</p>
 
@@ -21,9 +21,9 @@ social: true  # includes social icons at the bottom of the page
 
 <!--**The main page is still under constuction; especially, I can't find a decent profile picture to use. I will at least try to keep other sections up to date.**-->
 
-I am a Ph.D. candidate in the <a href='https://mathsci.kaist.ac.kr/home/'>Department of Mathematical Sciences, KAIST</a>. 
-My academic advisor is Prof. <a href='https://mathsci.kaist.ac.kr/~donghwankim'>Donghwan Kim</a>.
-Previously, I completed my Bachelor's degree in <a href='https://mathsci.kaist.ac.kr/home/'>Mathematical Sciences</a> with minoring <a href='https://cs.kaist.ac.kr/'>Computer Science</a> in KAIST. 
+I am a postdoctoral researcher, formally appointed at the Natural Science Research Institute at KAIST, but affiliated with and mainly working with the PDE & AI Lab at Yonsei University, led by Prof. <a href='https://sites.google.com/site/dhkwonmath/'>Dohyun Kwon</a>. 
+I received my Ph.D. in <a href='https://mathsci.kaist.ac.kr/home/'>Mathematical Sciences</a> from <a href='https://kaist.ac.kr/'>KAIST</a> under the supervision of Prof. <a href='https://mathsci.kaist.ac.kr/~donghwankim'>Donghwan Kim</a>.
+Before that, I completed my bachelor's degree in Mathematical Sciences from KAIST, with a minor in <a href='https://cs.kaist.ac.kr/'>Computer Science</a>. 
 
 I study optimization theory and algorithms for machine learning. 
 Recently, I also got interested in how optimization methods work in real world machine learning applications (implicit biases, generalization properties, etc.). 
