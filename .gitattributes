@@ -1,0 +1,13 @@
+# Force LF line endings, needed for Docker to work on Windows.
+* text=auto eol=lf
+
+*.gif binary
+*.ico binary
+*.jpeg binary
+*.jpg binary
+*.pdf binary
+*.png binary
+*.ttf binary
+*.webp binary
+*.woff binary
+*.woff2 binary
