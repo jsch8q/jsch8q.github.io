@@ -18,7 +18,9 @@
           {% for item in content.items %}
             <tr>
               <td></td>
-              <td class="list-group-name"><b>{{ item.name }}</b></td>
+              <td class="list-group-name">
+                <b>{{ item.name }}</b>
+              </td>
               {% if item.level %}
                 <td class="list-group-level">{{ item.level }}</td>
               {% endif %}
@@ -26,12 +28,18 @@
                 <td class="list-group-school">{{ item.school }}
               {% endif %}
               {% if item.time %}
-                <br><span class="list-group-time">{{ item.time }}</span></td>
+                <br>
+                <span class="list-group-time">{{ item.time }}</span>
+                </td>
               {% else %}
                 </td>
               {% endif %}
               {% if item.link %}
-                <td class="list-group-link"><a href="{{ item.link }}" target="_blank" class="btncv z-depth-0">{% if item.linkname %}{{ item.linkname }}{% else %}DOC{% endif %}</a></td>
+                <td class="list-group-link">
+                  <a href="{{ item.link }}" target="_blank" class="btncv z-depth-0">
+                    {%- if item.linkname %}{{ item.linkname }}{% else %}DOC{% endif -%}
+                  </a>
+                </td>
               {% endif %}
             </tr>
           {% endfor %}

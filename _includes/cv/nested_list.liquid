@@ -5,7 +5,9 @@
       {% if content.items %}
         <ul class="subitems">
           {% for subitem in content.items %}
-            <li><span class="subitem">{{ subitem }}</span></li>
+            <li>
+              <span class="subitem">{{ subitem }}</span>
+            </li>
           {% endfor %}
         </ul>
       {% endif %}

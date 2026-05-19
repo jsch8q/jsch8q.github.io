@@ -8,7 +8,9 @@
               <tbody>
                 <tr>
                   <td>
-                    <span class="badge font-weight-bold danger-color-dark text-uppercase align-middle" style="min-width: 75px;">{{ content.year }}</span>
+                    <span class="badge font-weight-bold danger-color-dark text-uppercase align-middle" style="min-width: 75px;">
+                      {{- content.year -}}
+                    </span>
                   </td>
                 </tr>
                 {% if content.location %}
@@ -31,13 +33,17 @@
               <tbody>
                 {% if content.institution %}
                   <tr>
-                    <td style="vertical-align: top; text-align: center;" class="institution"><i class="fa-solid fa-building-columns iconinstitution"></i></td>
+                    <td style="vertical-align: top; text-align: center;" class="institution">
+                      <i class="fa-solid fa-building-columns iconinstitution"></i>
+                    </td>
                     <td class="institution">{{ content.institution }}</td>
                   </tr>
                 {% endif %}
                 {% if content.department %}
                   <tr>
-                    <td style="vertical-align: top; text-align: center;" class="department"><i class="fa-regular fa-circle-dot icondepartment"></i></td>
+                    <td style="vertical-align: top; text-align: center;" class="department">
+                      <i class="fa-regular fa-circle-dot icondepartment"></i>
+                    </td>
                     <td class="department">{{ content.department }}</td>
                   </tr>
                 {% endif %}
@@ -55,7 +61,9 @@
                     <span class="item-title">{{ item.title }}</span>
                     <ul class="subitems">
                       {% for subitem in item.contents %}
-                        <li><span class="subitem">{{ subitem }}</span></li>
+                        <li>
+                          <span class="subitem">{{ subitem }}</span>
+                        </li>
                       {% endfor %}
                     </ul>
                   {% else %}
@@ -73,7 +81,9 @@
                     <span class="item-title">{{ item.title }}</span>
                     <ul class="subitems">
                       {% for subitem in item.contents %}
-                        <li><span class="subitem">{{ subitem }}</span></li>
+                        <li>
+                          <span class="subitem">{{ subitem }}</span>
+                        </li>
                       {% endfor %}
                     </ul>
                   {% else %}
