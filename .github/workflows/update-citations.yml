@@ -93,9 +93,18 @@ jobs:
 
       - name: Commit and push if changed
         run: |
+          if [ ! -f _data/citations.yml ]; then
+            echo "📝 _data/citations.yml does not exist; nothing to commit."
+            echo "📝 _data/citations.yml does not exist; nothing to commit." >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+
           git add _data/citations.yml
-          git diff --staged --quiet || (
+          if git diff --staged --quiet; then
+            echo "ℹ️ _data/citations.yml was not changed."
+            echo "ℹ️ _data/citations.yml was not changed." >> $GITHUB_STEP_SUMMARY
+          else
             echo "📤 Committing and pushing changes..."
             git commit -m "Update Google Scholar citations"
             git push
-          )
+          fi
