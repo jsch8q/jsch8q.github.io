@@ -1,0 +1,96 @@
+{% if site.search_enabled %}
+  <script type="module" src="{{ site.baseurl }}/assets/al_search/js/search/ninja-keys.min.js"></script>
+  <ninja-keys hideBreadcrumbs noAutoLoadMdIcons placeholder="Type to start searching"></ninja-keys>
+  <script src="{{ site.baseurl }}/assets/al_search/js/search-setup.js"></script>
+  <script>
+    const ninja = document.querySelector("ninja-keys");
+
+    if (ninja) {
+      ninja.data = [
+        {%- for page in site.pages -%}
+          {%- if page.permalink == '/' -%}{%- assign about_title = page.title | strip -%}{%- endif -%}
+        {%- endfor -%}
+        {
+          id: "nav-{{ about_title | slugify }}",
+          title: "{{ about_title | truncatewords: 13 }}",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "{{ '/' | relative_url }}";
+          },
+        },
+        {%- assign sorted_pages = site.pages | sort: "nav_order" -%}
+        {%- for p in sorted_pages -%}
+          {%- if p.nav and p.autogen == null -%}
+            {%- if p.dropdown -%}
+              {%- for child in p.children -%}
+                {%- unless child.title == 'divider' -%}
+                  {
+                    {%- assign title = child.title | escape | strip -%}
+                    {%- if child.permalink contains "/blog/" -%}{%- assign url = "/blog/" -%}{%- else -%}{%- assign url = child.permalink -%}{%- endif -%}
+                    id: "dropdown-{{ title | slugify }}",
+                    title: "{{ title | truncatewords: 13 }}",
+                    description: "{{ child.description | strip_html | strip_newlines | escape | strip }}",
+                    section: "Navigation",
+                    handler: () => {
+                      window.location.href = "{{ url | relative_url }}";
+                    },
+                  },
+                {%- endunless -%}
+              {%- endfor -%}
+            {%- else -%}
+              {
+                {%- assign title = p.title | escape | strip -%}
+                {%- if p.permalink contains "/blog/" -%}{%- assign url = "/blog/" -%}{%- else -%}{%- assign url = p.url -%}{%- endif -%}
+                id: "nav-{{ title | slugify }}",
+                title: "{{ title | truncatewords: 13 }}",
+                description: "{{ p.description | strip_html | strip_newlines | escape | strip }}",
+                section: "Navigation",
+                handler: () => {
+                  window.location.href = "{{ url | relative_url }}";
+                },
+              },
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if site.socials_in_search -%}
+          {%- for social in site.data.socials -%}
+            {%- case social[0] -%}
+              {%- when "cv_pdf" -%}
+                {%- assign social_id = "social-cv" -%}
+                {%- assign social_title = "CV" -%}
+                {%- capture social_url %}"{{ social[1] | relative_url }}"{% endcapture -%}
+              {%- when "email" -%}
+                {%- assign social_id = "social-email" -%}
+                {%- assign social_title = "email" -%}
+                {%- capture social_url %}"mailto:{{ social[1] | encode_email }}"{% endcapture -%}
+              {%- when "github_username" -%}
+                {%- assign social_id = "social-github" -%}
+                {%- assign social_title = "GitHub" -%}
+                {%- capture social_url %}"https://github.com/{{ social[1] }}"{% endcapture -%}
+              {%- when "linkedin_username" -%}
+                {%- assign social_id = "social-linkedin" -%}
+                {%- assign social_title = "LinkedIn" -%}
+                {%- capture social_url %}"https://www.linkedin.com/in/{{ social[1] }}"{% endcapture -%}
+              {%- when "scholar_userid" -%}
+                {%- assign social_id = "social-scholar" -%}
+                {%- assign social_title = "Google Scholar" -%}
+                {%- capture social_url %}"https://scholar.google.com/citations?user={{ social[1] }}"{% endcapture -%}
+              {%- else -%}
+                {%- assign social_id = "" -%}
+            {%- endcase -%}
+            {%- if social_id != "" -%}
+              {
+                id: "{{ social_id }}",
+                title: "{{ social_title }}",
+                section: "Socials",
+                handler: () => {
+                  window.open({{ social_url }}, "_blank");
+                },
+              },
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      ];
+    }
+  </script>
+{% endif %}

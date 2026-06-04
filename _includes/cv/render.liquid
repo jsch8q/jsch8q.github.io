@@ -1,0 +1,135 @@
+{% comment %}
+  Local legacy CV renderer.
+  This keeps the v1 site shell but renders the CV in the pre-v1 al-folio data style.
+{% endcomment %}
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">
+      {{ page.title }}
+      {% if page.cv_pdf %}
+        <a
+          {% if page.cv_pdf contains '://' %}
+            href="{{ page.cv_pdf }}"
+          {% else %}
+            href="{{ page.cv_pdf | relative_url }}"
+          {% endif %}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="float-right"
+        >
+          <i class="fa-solid fa-file-pdf"></i>
+        </a>
+      {% endif %}
+    </h1>
+    {% if page.description %}
+      <p class="post-description">{{ page.description }}</p>
+    {% endif %}
+  </header>
+
+  <article>
+    <div class="cv cv-legacy">
+      {% for section in site.data.cv %}
+        <a class="anchor" id="{{ section.title | slugify }}"></a>
+        <div class="card mt-3 p-3">
+          <h3 class="card-title font-weight-medium">{{ section.title }}</h3>
+
+          {% case section.type %}
+            {% when 'map' %}
+              <table class="table table-cv table-sm table-borderless cv-legacy-map">
+                {% for item in section.contents %}
+                  <tr>
+                    <td class="p-1 pr-2 font-weight-bold cv-legacy-map-key"><b>{{ item.name }}</b></td>
+                    <td class="p-1 pl-2 font-weight-light">{{ item.value }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+
+            {% when 'time_table' %}
+              <ul class="card-text font-weight-light list-group list-group-flush cv-legacy-list">
+                {% for item in section.contents %}
+                  <li class="list-group-item cv-legacy-item">
+                    <div class="cv-legacy-row">
+                      <div class="cv-legacy-date">
+                        {% if item.year %}
+                          <span class="badge font-weight-bold danger-color-dark text-uppercase align-middle cv-legacy-badge">{{ item.year }}</span>
+                        {% endif %}
+                      </div>
+
+                      <div class="cv-legacy-body">
+                        {% if item.title %}
+                          <h6 class="title font-weight-bold cv-legacy-title">{{ item.title }}</h6>
+                        {% endif %}
+                        {% if item.institution %}
+                          <h6 class="cv-legacy-subtitle">{{ item.institution }}</h6>
+                        {% endif %}
+                        {% if item.description %}
+                          <ul class="items cv-legacy-description">
+                            {% for description in item.description %}
+                              <li>
+                                <span class="item">{{ description }}</span>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+
+            {% when 'nested_list' %}
+              <ul class="card-text font-weight-light list-group list-group-flush cv-legacy-list cv-legacy-nested-list">
+                {% for item in section.contents %}
+                  <li class="list-group-item cv-legacy-item cv-legacy-nested-item">
+                    <div class="cv-legacy-body cv-legacy-body-full">
+                      {% if item.title %}
+                        <h6 class="title font-weight-bold cv-legacy-title">{{ item.title }}</h6>
+                      {% endif %}
+                      {% if item.items %}
+                        <ul class="items cv-legacy-description">
+                          {% for nested_item in item.items %}
+                            <li>
+                              <span class="item">{{ nested_item }}</span>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+
+            {% when 'list' %}
+              <ul class="card-text font-weight-light list-group list-group-flush cv-legacy-list cv-legacy-simple-list">
+                {% for item in section.contents %}
+                  <li class="list-group-item cv-legacy-item cv-legacy-list-item">
+                    <div class="cv-legacy-body cv-legacy-body-full cv-legacy-inline-body">
+                      {% assign rendered_item = false %}
+                      {% for pair in item %}
+                        <div class="cv-legacy-inline-entry">
+                          <span class="font-weight-bold cv-legacy-inline-label">{{ pair[0] }}:</span>
+                          <span class="cv-legacy-inline-value">{{ pair[1] }}</span>
+                        </div>
+                        {% assign rendered_item = true %}
+                      {% endfor %}
+                      {% unless rendered_item %}
+                        <div class="cv-legacy-inline-entry">{{ item }}</div>
+                      {% endunless %}
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+
+            {% else %}
+              <div class="card-text font-weight-light">
+                {% for item in section.contents %}
+                  <div>{{ item }}</div>
+                {% endfor %}
+              </div>
+          {% endcase %}
+        </div>
+      {% endfor %}
+    </div>
+  </article>
+</div>

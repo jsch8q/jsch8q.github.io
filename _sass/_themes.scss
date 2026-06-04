@@ -1,34 +1,73 @@
 /*******************************************************************************
  * Themes
  ******************************************************************************/
-@use "variables" as v;
 @use "sass:color";
+
+// Local theme tokens. These were intentionally kept here instead of in a local
+// _variables.scss so al-folio v1 can keep using the gem's variables module.
+$red-color: #ff3636 !default;
+$red-color-dark: #b71c1c !default;
+$orange-color: #f29105 !default;
+$blue-color: #0076df !default;
+$blue-color-dark: #00369f !default;
+$cyan-color: #2698ba !default;
+$light-cyan-color: color.adjust($cyan-color, $lightness: 25%) !default;
+$green-color: #00ab37 !default;
+$green-color-lime: #b7d12a !default;
+$green-color-dark: #009f06 !default;
+$green-color-light: #ddffdd !default;
+$green-color-bright: #11d68b !default;
+$purple-color: #b509ac !default;
+$light-purple-color: color.adjust($purple-color, $lightness: 25%) !default;
+$pink-color: #f92080 !default;
+$pink-color-light: #ffdddd !default;
+$yellow-color: #efcc00 !default;
+
+$grey-color: #828282 !default;
+$grey-color-light: color.adjust($grey-color, $lightness: 40%) !default;
+$grey-color-dark: #1c1c1d !default;
+$grey-900: #212529 !default;
+
+$white-color: #ffffff !default;
+$black-color: #000000 !default;
+
+$theme-color-light: $blue-color !default;
+$theme-color-dark: $cyan-color !default;
+$code-bg-color-light: rgba($theme-color-light, 0.05) !default;
+$code-bg-color-dark: #2c3237 !default;
+
+$back-to-top-z-index: 10 !default;
+$back-to-top-bottom: 30px !default;
+$back-to-top-right: 30px !default;
+$back-to-top-diameter: 40px !default;
+$back-to-top-height: $back-to-top-diameter !default;
+$back-to-top-width: $back-to-top-diameter !default;
 
 :root {
   color-scheme: light;
-  --global-bg-color: #{v.$white-color};
-  --global-code-bg-color: #{v.$code-bg-color-light};
-  --global-text-color: #{v.$black-color};
-  --global-text-color-light: #{v.$grey-color};
-  --global-theme-color: #{v.$blue-color};
-  --global-hover-color: #{v.$blue-color};
-  --global-hover-text-color: #{v.$white-color};
-  --global-footer-bg-color: #{v.$grey-color-dark};
-  --global-footer-text-color: #{v.$grey-color-light};
-  --global-footer-link-color: #{v.$white-color};
-  --global-distill-app-color: #{v.$grey-color};
+  --global-bg-color: #{$white-color};
+  --global-code-bg-color: #{$code-bg-color-light};
+  --global-text-color: #{$black-color};
+  --global-text-color-light: #{$grey-color};
+  --global-theme-color: #{$theme-color-light};
+  --global-hover-color: #{$theme-color-light};
+  --global-hover-text-color: #{$white-color};
+  --global-footer-bg-color: #{$grey-color-dark};
+  --global-footer-text-color: #{$grey-color-light};
+  --global-footer-link-color: #{$white-color};
+  --global-distill-app-color: #{$grey-color};
   --global-divider-color: rgba(0, 0, 0, 0.1);
-  --global-card-bg-color: #{v.$white-color};
-  --global-highlight-color: #{v.$red-color-dark};
+  --global-card-bg-color: #{$white-color};
+  --global-highlight-color: #{$red-color-dark};
   --global-back-to-top-bg-color: rgba(
-    #{color.channel(v.$black-color, "red", v.$space: rgb)},
-    #{color.channel(v.$black-color, "green", v.$space: rgb)},
-    #{color.channel(v.$black-color, "blue", v.$space: rgb)},
+    #{color.channel($black-color, "red", $space: rgb)},
+    #{color.channel($black-color, "green", $space: rgb)},
+    #{color.channel($black-color, "blue", $space: rgb)},
     0.4
   );
-  --global-back-to-top-text-color: #{v.$white-color};
-  --global-newsletter-bg-color: #{v.$white-color};
-  --global-newsletter-text-color: #{v.$black-color};
+  --global-back-to-top-text-color: #{$white-color};
+  --global-newsletter-bg-color: #{$white-color};
+  --global-newsletter-text-color: #{$black-color};
 
   --global-tip-block: #42b983;
   --global-tip-block-bg: #e2f5ec;
@@ -66,38 +105,38 @@
   #back-to-top {
     color: var(--global-back-to-top-text-color);
     background: var(--global-back-to-top-bg-color);
-    bottom: v.$back-to-top-bottom;
-    right: v.$back-to-top-right;
-    height: v.$back-to-top-height;
-    width: v.$back-to-top-width;
-    z-index: v.$back-to-top-z-index;
+    bottom: $back-to-top-bottom;
+    right: $back-to-top-right;
+    height: $back-to-top-height;
+    width: $back-to-top-width;
+    z-index: $back-to-top-z-index;
   }
 }
 
 html[data-theme="dark"] {
   color-scheme: dark;
-  --global-bg-color: #{v.$grey-color-dark};
-  --global-code-bg-color: #{v.$code-bg-color-dark};
-  --global-text-color: #{v.$grey-color-light};
-  --global-text-color-light: #{v.$grey-color};
-  --global-theme-color: #{v.$cyan-color};
-  --global-hover-color: #{v.$cyan-color};
-  --global-hover-text-color: #{v.$white-color};
-  --global-footer-bg-color: #{v.$grey-color-light};
-  --global-footer-text-color: #{v.$grey-color-dark};
-  --global-footer-link-color: #{v.$black-color};
-  --global-distill-app-color: #{v.$grey-color-light};
+  --global-bg-color: #{$grey-color-dark};
+  --global-code-bg-color: #{$code-bg-color-dark};
+  --global-text-color: #{$grey-color-light};
+  --global-text-color-light: #{$grey-color};
+  --global-theme-color: #{$theme-color-dark};
+  --global-hover-color: #{$theme-color-dark};
+  --global-hover-text-color: #{$white-color};
+  --global-footer-bg-color: #{$grey-color-light};
+  --global-footer-text-color: #{$grey-color-dark};
+  --global-footer-link-color: #{$black-color};
+  --global-distill-app-color: #{$grey-color-light};
   --global-divider-color: #424246;
-  --global-card-bg-color: #{v.$grey-900};
+  --global-card-bg-color: #{$grey-900};
   --global-back-to-top-bg-color: rgba(
-    #{color.channel(v.$white-color, "red", v.$space: rgb)},
-    #{color.channel(v.$white-color, "green", v.$space: rgb)},
-    #{color.channel(v.$white-color, "blue", v.$space: rgb)},
+    #{color.channel($white-color, "red", $space: rgb)},
+    #{color.channel($white-color, "green", $space: rgb)},
+    #{color.channel($white-color, "blue", $space: rgb)},
     0.5
   );
-  --global-back-to-top-text-color: #{v.$black-color};
-  --global-newsletter-bg-color: #{v.$grey-color-light};
-  --global-newsletter-text-color: #{v.$grey-color-dark};
+  --global-back-to-top-text-color: #{$black-color};
+  --global-newsletter-bg-color: #{$grey-color-light};
+  --global-newsletter-text-color: #{$grey-color-dark};
 
   --global-tip-block: #42b983;
   --global-tip-block-bg: #215d42;
@@ -159,7 +198,7 @@ html[data-theme-setting="light"] {
   display: inline-block;
 
   --fa-font: var(--fa-font-solid);
-  speak: none;
+  // speak: none;
   font-style: normal;
   font-variant: normal;
   text-rendering: auto;
@@ -205,4 +244,168 @@ html[data-theme-setting="light"] {
 
 #light-toggle:hover .fa-half-sun-moon::after {
   color: var(--global-theme-color);
+}
+
+.cv .card {
+  background-color: var(--global-card-bg-color);
+  border-color: var(--global-divider-color);
+}
+
+.cv .card-title {
+  color: var(--global-theme-color);
+}
+
+.cv-legacy .table-cv,
+.cv-legacy .table-cv td,
+.cv-legacy .table-cv th {
+  border: 0;
+}
+
+.cv-legacy .cv-legacy-map {
+  margin-bottom: 0;
+}
+
+.cv-legacy .cv-legacy-map-key {
+  width: 10rem;
+}
+
+.cv-legacy .list-group-item {
+  background-color: transparent;
+  border: 0;
+  padding: 0.75rem 0;
+}
+
+.cv-legacy ul.card-text.list-group,
+.cv-legacy ul.card-text.list-group > li.list-group-item {
+  list-style: none;
+}
+
+.cv-legacy ul.card-text.list-group {
+  margin: 0;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.cv-legacy ul.card-text.list-group > li.list-group-item::marker {
+  content: "";
+}
+
+.cv-legacy .cv-legacy-row {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  column-gap: 1.1rem;
+  align-items: start;
+  width: 100%;
+}
+
+.cv-legacy .cv-legacy-date {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.18rem;
+  text-align: center;
+}
+
+.cv-legacy .cv-legacy-body {
+  min-width: 0;
+}
+
+.cv-legacy .cv-legacy-body-full {
+  padding-left: 1.25rem;
+}
+
+.cv-legacy .cv-legacy-title,
+.cv-legacy .cv-legacy-subtitle {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.cv-legacy .cv-legacy-title {
+  margin-top: 0;
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
+}
+
+.cv-legacy .cv-legacy-subtitle {
+  margin-top: 0;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.cv-legacy .cv-legacy-description {
+  margin-top: 0.35rem;
+  margin-bottom: 0;
+  padding-left: 1.1rem;
+}
+
+.cv-legacy .cv-legacy-badge {
+  display: inline-flex;
+  justify-content: center;
+  min-width: 9.0rem;
+  padding: 2% 0.5rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  border-top: 0;
+  line-height: 1.15; 
+}
+
+.cv-legacy .cv-legacy-nested-list,
+.cv-legacy .cv-legacy-simple-list {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.cv-legacy .cv-legacy-nested-list .items {
+  margin-bottom: 0;
+  padding-left: 1.1rem;
+}
+
+.cv-legacy .cv-legacy-inline-entry {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: baseline;
+}
+
+.cv-legacy .cv-legacy-inline-label,
+.cv-legacy .cv-legacy-inline-value {
+  line-height: 1.45;
+}
+
+.cv-legacy .cv-legacy-list-item {
+  padding: 0.5rem 0;
+}
+
+.publications .author-marker {
+  padding-left: 0.05rem;
+  font-style: normal;
+  text-decoration: none;
+}
+
+.publications .equal-contribution-note {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.75rem;
+  row-gap: 0.15rem;
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  color: var(--global-text-color-light);
+}
+
+.publications .equal-contribution-note .author-note-item {
+  display: inline-flex;
+  gap: 0.15rem;
+  align-items: baseline;
+}
+
+@media (max-width: 575.98px) {
+  .cv-legacy .cv-legacy-row {
+    grid-template-columns: 1fr;
+    row-gap: 0.35rem;
+  }
+
+  .cv-legacy .cv-legacy-date {
+    justify-content: flex-start;
+    padding-top: 0;
+  }
 }
