@@ -5,24 +5,27 @@
     <div class="col col-sm-2 abbr">
       {%- if entry.abbr -%}
         {%- if site.data.venues[entry.abbr] -%}
-          {% assign venue_style = null %}
-          {% if site.data.venues[entry.abbr].color != blank %}
-            {% assign venue_style = site.data.venues[entry.abbr].color | prepend: 'style="background-color:' | append: '"' %}
+          {% assign venue = site.data.venues[entry.abbr] %}
+          {% assign venue_type = site.data.venue_types[venue.type] %}
+          {% assign venue_color = venue.color %}
+          {% if venue_color == blank and venue.type != blank %}
+            {% assign venue_color = venue_type.color %}
+          {% endif %}
+          {% assign venue_text_color = venue.text_color | default: venue_type.text_color | default: '#ffffff' %}
+          {% assign venue_style = venue_text_color | prepend: 'color:' | append: ';' %}
+          {% if venue_color != blank %}
+            {% assign venue_background_style = venue_color | prepend: 'background-color:' | append: ';' %}
+            {% assign venue_style = venue_style | append: venue_background_style %}
           {%- endif -%}
-          <abbr
-            class="badge rounded w-100"
-            {% if venue_style %}
-              {{ venue_style }}
-            {% endif -%}
-          >
+          <abbr class="badge rounded w-100" style="{{ venue_style }}">
             {% if site.data.venues[entry.abbr].url %}
-              <a href="{{ site.data.venues[entry.abbr].url }}">{{ entry.abbr }}</a>
+              <a href="{{ site.data.venues[entry.abbr].url }}" style="color: inherit;">{{ entry.abbr }}</a>
             {% else %}
-              <div>{{- entry.abbr -}}</div>
+              {{- entry.abbr -}}
             {% endif %}
           </abbr>
         {% else %}
-          <abbr class="badge rounded w-100">{{ entry.abbr }}</abbr>
+          <abbr class="badge rounded w-100" style="color: #ffffff;">{{ entry.abbr }}</abbr>
         {% endif %}
       {% endif %}
       {% if entry.preview %}
@@ -46,7 +49,7 @@
   {% endif %}
 
   <!-- Entry bib key -->
-  <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-8{% else %}col-sm-10{% endif %}">
+  <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-9{% else %}col-sm-10{% endif %}">
     <!-- Title -->
     <div class="title">{{ entry.title }}</div>
     <!-- Author -->
@@ -100,15 +103,39 @@
           {%- if author_is_equal_contributor -%}<sup class="author-marker equal-contribution-marker">{{ equal_contribution_symbol }}</sup>{%- endif -%}
           {%- if author_is_equal_corresponding -%}<sup class="author-marker equal-corresponding-marker">{{ equal_corresponding_symbol }}</sup>{%- endif -%}
         {%- endcapture %}
-        {%- capture author_suffix -%}{%- unless forloop.last -%}{%- if forloop.length > 2 -%}{%- if forloop.rindex == 2 and author_array_limit == author_array_size -%}, and {% else -%}, {% endif -%}{%- elsif forloop.length == 2 -%} and {% endif -%}{%- endunless -%}{%- endcapture -%}
+        {%- assign author_suffix = '' -%}
+        {%- unless forloop.last -%}
+          {%- if forloop.length > 2 -%}
+            {%- if forloop.rindex == 2 and author_array_limit == author_array_size -%}
+              {%- assign author_suffix = ', and ' -%}
+            {%- else -%}
+              {%- assign author_suffix = ', ' -%}
+            {%- endif -%}
+          {%- elsif forloop.length == 2 -%}
+            {%- assign author_suffix = ' and ' -%}
+          {%- endif -%}
+        {%- endunless -%}
 
         {%- if author_is_self -%}
-          <em>{{- author.first }} {{ author_last_html -}}</em>{{- author_markers -}}{{- author_suffix -}}
+          <em>
+            {{- author.first }}
+            {{ author_last_html -}}
+          </em>
+          {{- author_markers -}}
+          {{- author_suffix -}}
         {%- else -%}
           {%- if coauthor_url -%}
-            <a href="{{ coauthor_url }}">{{- author.first }} {{ author_last_html -}}</a>{{- author_markers -}}{{- author_suffix -}}
+            <a href="{{ coauthor_url }}">
+              {{- author.first }}
+              {{ author_last_html -}}
+            </a>
+            {{- author_markers -}}
+            {{- author_suffix -}}
           {%- else -%}
-            {{- author.first }} {{ author_last_html -}}{{- author_markers -}}{{- author_suffix -}}
+            {{- author.first }}
+            {{ author_last_html -}}
+            {{- author_markers -}}
+            {{- author_suffix -}}
           {% endif %}
         {%- endif -%}
       {% endfor %}
@@ -414,7 +441,7 @@
       <div class="bibtex hidden">
         {% highlight bibtex %}
         {{- entry.bibtex | hideCustomBibtex -}}
-        {% endhighlight %}
+      {% endhighlight %}
       </div>
     {% endif %}
 

@@ -1,0 +1,19 @@
+# Add any type here and reference it from _data/venues.yml.
+# Use quoted CSS colors: color for the background, text_color for the text.
+# Omitting a type's color keeps the site's default theme color.
+# Omitting text_color uses white (#ffffff).
+journal:
+  color: "#217145"
+  text_color: "#ffffff"
+
+conference:
+  color: "#0076df"
+  text_color: "#ffffff"
+
+thesis:
+  color: "#9667ab"
+  text_color: "#ffffff"
+
+misc:
+  color: "#829199"
+  text_color: "#ffffff"

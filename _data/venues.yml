@@ -1,3 +1,30 @@
+# Keys must exactly match the abbr field in _bibliography/papers.bib.
+# Set type to a key in _data/venue_types.yml. URL is optional.
+# An optional color overrides the type color, e.g. color: "#00369f".
+# Without either color, the badge uses the site's theme color.
+# An optional text_color overrides the type text_color, e.g. text_color: "#ffffff".
+# Text defaults to white when neither venue nor type sets text_color.
+"COLT":
+  type: conference
+
+"NeurIPS":
+  type: conference
+
+"ICLR":
+  type: conference
+
+"TDSC":
+  type: journal
+
+"ACS AMI":
+  type: journal
+
+"Workshop":
+  type: misc
+
+"Ph.D. Thesis":
+  type: thesis
+
 "AJP":
   url: https://aapt.scitation.org/journal/ajp
   color: "#00369f"

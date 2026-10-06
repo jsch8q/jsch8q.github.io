@@ -39,7 +39,9 @@
               <table class="table table-cv table-sm table-borderless cv-legacy-map">
                 {% for item in section.contents %}
                   <tr>
-                    <td class="p-1 pr-2 font-weight-bold cv-legacy-map-key"><b>{{ item.name }}</b></td>
+                    <td class="p-1 pr-2 font-weight-bold cv-legacy-map-key">
+                      <b>{{ item.name }}</b>
+                    </td>
                     <td class="p-1 pl-2 font-weight-light">{{ item.value }}</td>
                   </tr>
                 {% endfor %}
