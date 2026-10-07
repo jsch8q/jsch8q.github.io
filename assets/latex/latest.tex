@@ -1,0 +1,241 @@
+\documentclass{beamer} 
+\mode<presentation>{} 
+
+\usepackage[colorblind_safe, printcontents]{beamerthemeKAIST}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{nicefrac}
+\usepackage{pgfplots, tikz-3dplot}
+\usepgfplotslibrary{colormaps}
+\usetikzlibrary{shapes}
+\usepackage[normalem]{ulem}
+\usepackage[font=footnotesize]{caption}
+\usepackage{subcaption, adjustbox}
+\usepackage{setspace}
+\usepackage{tabularray}
+\usepackage{nicematrix} 
+\usepackage[algoruled,noline,noend,linesnumbered]{algorithm2e} 
+\usepackage{upgreek}
+\usepackage{graphicx,scalerel}
+\newcommand\wh[1]{\hstretch{2}{\hat{\hstretch{.5}{#1}}}} 
+\usepackage{csquotes}
+\usepackage[outline]{contour}
+\contourlength{1.2pt} 
+\usepackage[english]{babel}
+\usepackage[backend=biber,style=authoryear,maxcitenames=2,sorting=nyt,natbib=true,sortcites]{biblatex}
+\addbibresource{biblio_public.bib} 
+
+\setstretch{1.1}
+\setdisplayskipstretch{1.0}  
+ 
+\usepackage[amsbb, bmbold]{my_macros}
+\let\oldfootnote\footnote
+\renewcommand\footnote[1][]{\oldfootnote[frame,#1]}
+
+\let\realcitep\citep
+\renewcommand*{\citep}[1]{{\color{citecolor}\scriptsize\realcitep{#1}}}
+
+\pgfplotsset{compat=1.16}
+
+\title[Two-timescale EG]{Two-timescale Extragradient for Finding Local~Minimax~Points}
+\author[Jiseok Chae]{Jiseok Chae\inst{1} \and Kyuwon Kim\inst{1} \and Donghwan Kim\inst{1}}
+\institute[KAIST]{\inst{1}%
+Department of Mathematical Sciences, KAIST }
+\date[2023 SAARC Workshop]{2023 SAARC ColLabor Workshop}
+
+\newcommand{\resschur}{\mS_{\text{res}}}
+
+\begin{document}
+%\setcounter{framenumber}{-1}
+	\frame {
+		\titlepage 
+	} 
+	\section{Introduction}
+	\frame[t]{
+	 	\frametitle{Problem Setting}
+		We consider minimax problems: \[
+			\min_{\vx \in \rr^n}\max_{\vy \in \rr^m} f(\vx, \vy).
+		\] 
+
+		\bigskip
+		Many ML applications of minimax problems:
+		\begin{enumerate}[label=\textbullet]
+			\item Generative Adversarial Networks
+			\item Adversarial Learning 
+			\item Fair Classification
+			\item Sharpness-aware Minimization
+		\end{enumerate}
+		
+			}
+	\frame[t]{
+	 	\frametitle{Optimality} 
+		Minimax problems have a hierarchical structure \[
+			\min_{\vx \in \rr^n}\left( \Phi(\vx) \coloneqq \max_{\vy \in \rr^m} f(\vx, \vy) \right).	
+		\]
+
+		\bigskip
+		The defintion of (local) optimal point $(\vx^*, \vy^*)$ reflects this hierarchy.
+		
+	\begin{definition}[{Informal; \citet{Jin20}}]
+		There exists $ h : \rr \to \rr$ such that for any small $\delta$,  \[
+			f(\vx^*, \vy) \leq f(\vx^*, \vy^*) \leq \max_{\norm{\tilde{\vy} - \vy^*}\leq h(\delta)} f(\vx, \tilde{\vy})
+		\] holds for any $\norm{\vx - \vx^*} \leq \delta$ and $\norm{\vy - \vy^*} \leq \delta$.
+	\end{definition}
+	}
+
+	\section{The Two-timescale Extragradient Method}
+	\frame[t]{
+		\frametitle{Two-timescale Methods}
+		Gradient descent ascent (GDA) is a widely used simple modification of gradient descent \begin{align*}
+			\vx_{k+1} &= \vx_k - \eta \nabla_{\vx}f (\vx_k, \vy_k) \\
+			\vy_{k+1} &= \vy_k + \eta \nabla_{\vy}f (\vx_k, \vy_k)
+		\end{align*} 
+		 but the hierarchy of minimax problems is not well incorporated. 
+
+		\vfill
+		To put more emphasis on the maximization, one can introduce a timescale parameter $\tau \geq 1$ and consider the \emph{two-timescale} GDA \begin{align*}
+			\vx_{k+1} &= \vx_k - \nicefrac{\eta}{\color{emphcolor}\tau} \nabla_{\vx}f (\vx_k, \vy_k) \\
+			\vy_{k+1} &= \vy_k +  \eta \nabla_{\vy}f (\vx_k, \vy_k)
+		\end{align*} 
+		   }
+		   \frame[t]{
+			\frametitle{Two-timescale GDA is Not Sufficient}
+			Does the two-timescale GDA work well?  
+	
+			\bigskip 
+			Yes and no...
+			
+			\medskip
+			\begin{theorem}[\citet{Jin20,Fiez21}]
+				If {\color{emphcolor}$\nabla_{\vy\vy}^2 f$ is negative definite}, then for a sufficiently large $\tau$, the limit points of the two-timescale GDA are the local optimum. 
+			\end{theorem}
+
+			\bigskip
+
+			\bigskip
+
+			Local optimal points with $\nabla_{\vy\vy}^2 f \prec \zero$ are called \emph{strict} local minimax points. 
+
+			\smallskip 
+			For \emph{non-strict} local optimal points, no convergence guarantees were known. 
+			}
+
+	\frame[t]{
+		\frametitle{The Extragradient Method}
+
+		Maybe using GDA is too na{\"i}ve?
+
+		\bigskip 
+		GDA already lacks convergence guarantees even for convex-concave problems. \citep{Mesc18}
+
+	\vfill 
+	The \only<2->{\emph{\color{emphcolor}two-timescale} }extragradient(EG) method \begin{align*}
+		\vx_{k+1/2} &= \vx_k - \only<1>{\eta}\only<2->{\nicefrac{\eta}{\color{emphcolor}\tau} } \nabla_{\vx} f(\vx_k, \vy_k) \\ 
+		\vy_{k+1/2} &= \vy_k + \eta \nabla_{\vy} f(\vx_k, \vy_k) \\ 
+		\vx_{k+1} &= \vx_k - \only<1>{\eta}\only<2->{\nicefrac{\eta}{\color{emphcolor}\tau} } \nabla_{\vx} f(\vx_{k+1/2}, \vy_{k+1/2}) \\ 
+		\vy_{k+1} &= \vy_k +  \eta \nabla_{\vy} f(\vx_{k+1/2}, \vy_{k+1/2})
+	\end{align*} \only<1>{is well known for its better convergence.}\only<2>{should do a better job in finding local optimal points!}  
+	\vfill
+	}
+
+	\frame[t]{
+		\frametitle{Dynamical Systems Approach} 
+Using some notations... \[
+	\mLam_\tau \coloneqq \begin{bmatrix} \nicefrac{1}{\tau} \id & \zero \\ \zero & \id	
+	\end{bmatrix}, \quad \mF(\,\cdot\,) \coloneqq \begin{bmatrix} {\nabla_{\vx}f(\,\cdot\,)} \\ {-\nabla_{\vy}f(\,\cdot\,)}	
+	\end{bmatrix}, \quad \vz \coloneqq \begin{bmatrix} \vx \\ \vy  \end{bmatrix}
+	\]
+	
+	\medskip 
+	...\@ two-timescale EG can be viewed as a dynamical system : \[
+	\vz_{k+1} = \vw_{\tau}(\vz_k) \coloneqq \vz_k - \eta \mLam_\tau \mF(\vz_k - \eta \mLam_\tau \mF(\vz_k)).
+	\]
+	
+	\medskip
+		\begin{fact}[{\citet[Theorem~4.8]{Galo07}}]
+For an equilibrium point $\vz^*$ of a dynamical system $\vz_{k+1} = \vw(\vz_{k})$, the~iterates locally converge to $\vz^*$ if the Jacobian matrix $D\vw(\vz^*)$ has spectral radius smaller than $1$, \textit{i.e.}, $\rho(D\vw(\vz^*)) < 1$.  
+	\end{fact} 
+   }
+
+   \frame[t]{
+	\frametitle{Asymptotic Behavior of Eigenvalues}
+ %
+	\begin{fact}[\citet*{Chae23}] 
+The condition for $\rho(D\vw_\tau (\vz^*)) < 1$ can be characterized by the spectrum of $\mLam_\tau D \mF (\vz^*)$.
+\end{fact}
+\vfill
+	\begin{theorem}[\citet*{Chae23}] \label{thm:eigval-asymptotics}
+		For $\epsilon \coloneqq \nicefrac{1}{\tau}$,
+		the complex eigenvalues $\lambda_j(\epsilon)$ of $\mLam_\tau D\mF(\vx^*, \vy^*)$ have one of the following three asymptotics as $\tau \to +\infty$: 
+		\begin{enumerate}[label=(\roman*)] 
+		\item $\card{\lambda_{j}(\epsilon) \pm i\sigma_j\sqrt{\epsilon}} = o(\sqrt{\epsilon}) $, \label{item:eig1}
+		\item $\card{\lambda_{j}(\epsilon) - \epsilon\mu_j} = o(\epsilon)$, \label{item:eig2}
+		\item $\card{\lambda_{j}(\epsilon) - \nu_j} = o(1)$. \label{item:eig3}
+		\end{enumerate}
+		Here, $\sigma_j$,  
+		$\nu_j$, 
+		and $\mu_j$ are some values determined by $D\mF(\vx^*, \vy^*)$. 
+	\end{theorem}	
+	
+	\bigskip
+	 
+   }  
+
+   \frame[t]{
+	\frametitle{Limit Points of the Two-timescale EG} 
+   \begin{theorem}
+ For an equilibrium point $\vz^*$ of the two-timescale EG \begin{align*} 
+			 \vz_{k+1} &= \vz_k - \eta \mLam_\tau \bm{F}(\vz_k - \eta \mLam_\tau \bm{F}(\vz_k)) ,
+		 \end{align*} TFAE:
+ \begin{enumerate}[label=\textbullet]
+ \item $\resschur(D\mF (\vz^*)) \succeq\zero$, $\nabla_{\vy\vy}^2 f \preceq\zero$, and $s_0 < \frac{1}{2L}$.
+ \item There exists a number $0 < \eta^\star < \frac{1}{L}$ 
+ such that the two-timescale EG locally converges to $\vz^*$ for all sufficiently large $\tau$ and $\eta^\star< \eta <\frac{1}{L}$.  
+ \end{enumerate} 
+ \end{theorem}  
+
+\medskip
+Here, $s_0$ is a scalar depending on $D\mF (\vz^*)$, and $\resschur$ is a matrix-valued function. {\scriptsize{(Details omitted.)}}  
+   } 
+
+   \frame[t]{
+	\frametitle{Relating to Local Optimality}
+	What points satisfy $\resschur(D\mF (\vz^*)) \succeq\zero$ and $\nabla_{\vy\vy}^2 f \preceq\zero$?
+ 
+	\bigskip 
+	\begin{proposition}[\citet*{Chae23}]
+		If $f \in \mathcal{C}^2$, then any local optimal point satisfies $\nabla_{\vy\vy}^2 f \preceq\zero$. 
+
+		\smallskip
+		If we further assume that $\limsup_{\delta \to 0} \nicefrac{h(\delta)}{\delta} < \infty$, then any local optimal point satisfies $\resschur(D\mF (\vz^*)) \succeq\zero$. 
+	\end{proposition} 
+
+	\bigskip
+	Therefore, under those mild conditions...
+	\begin{center}
+		\emph{Two-timescale EG can find \textup{non-strict} local optimal points. }
+	\end{center}
+
+	\bigskip
+		This is the first ever known convergence result of a first-order method to non-strict local optimal points. 
+	}
+  
+	\frame{
+		\hspace{0pt}
+		\vfill	
+		\begin{center}
+		Thank you for your attention.
+		\end{center}
+		\vfill
+		\hspace{0pt}
+	}
+
+	\frame[plain, allowframebreaks, noframenumbering]{
+		\frametitle{References} 
+	   % \nocite{*}
+	   \printbibliography
+	}
+\end{document}
