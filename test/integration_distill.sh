@@ -11,6 +11,15 @@ cleanup() {
 trap cleanup EXIT
 
 cat >"${tmp_override}" <<'YAML'
+# Enable optional diagram integrations only for the page exercised by this test.
+defaults:
+  - scope:
+      path: "_posts/2018-12-22-distill.md"
+      type: posts
+    values:
+      mermaid:
+        enabled: true
+      tikzjax: true
 giscus:
   repo: alshedivat/al-folio
   repo_id: R_kgDOExample
@@ -27,14 +36,22 @@ if [ ! -f "${distill_page}" ]; then
   exit 1
 fi
 
-grep -q 'd-front-matter' "${distill_page}"
-grep -q '/assets/js/distillpub/template.v2.js' "${distill_page}"
-grep -q '/assets/js/distillpub/transforms.v2.js' "${distill_page}"
-grep -q '/assets/js/distillpub/overrides.js' "${distill_page}"
-grep -q '/assets/al_charts/js/mermaid-setup.js' "${distill_page}"
-grep -q 'https://cdn.jsdelivr.net/npm/@planktimerr/tikzjax@1.0.8/dist/fonts.css' "${distill_page}"
-grep -q 'https://cdn.jsdelivr.net/npm/@planktimerr/tikzjax@1.0.8/dist/tikzjax.js' "${distill_page}"
-grep -q 'id="giscus_thread"' "${distill_page}"
+assert_contains() {
+  local expected="$1"
+  if ! grep -Fq -- "${expected}" "${distill_page}"; then
+    echo "distill integration failed: missing ${expected} in ${distill_page}" >&2
+    exit 1
+  fi
+}
+
+assert_contains 'd-front-matter'
+assert_contains '/assets/js/distillpub/template.v2.js'
+assert_contains '/assets/js/distillpub/transforms.v2.js'
+assert_contains '/assets/js/distillpub/overrides.js'
+assert_contains '/assets/al_charts/js/mermaid-setup.js'
+assert_contains 'https://cdn.jsdelivr.net/npm/@planktimerr/tikzjax@1.0.8/dist/fonts.css'
+assert_contains 'https://cdn.jsdelivr.net/npm/@planktimerr/tikzjax@1.0.8/dist/tikzjax.js'
+assert_contains 'id="giscus_thread"'
 transforms_runtime="${tmp_site}/assets/js/distillpub/transforms.v2.js"
 distill_runtime="$(PATH="$HOME/.rbenv/shims:$PATH" bundle exec ruby -e 'spec = Gem.loaded_specs["al_folio_distill"]; puts(spec ? File.join(spec.full_gem_path, "assets/js/distillpub/transforms.v2.js") : "")')"
 if [ -f "${distill_runtime}" ]; then
